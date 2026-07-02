@@ -1,37 +1,80 @@
-# UNICORN
+# LSTI-Clock
 
-The implementation of _Unified Conversational Recommendation Policy Learning via Graph-based Reinforcement Learning_ (SIGIR 2021). 
+This repository contains the reproducibility artifacts for the manuscript:
 
-The code is partially referred to https://cpr-conv-rec.github.io/. 
+**LSTI-Clock: Long-Short Term Interest Adaptive Clock Model for Conversational Recommendation Systems**
+
+submitted to **ACM Transactions on Recommender Systems (TORS)**.
+
+## Overview
+
+LSTI-Clock is a conversational recommendation model that incorporates temporal information to model users' long-term and short-term interests. The repository provides the source code, data preparation instructions, training and evaluation scripts, and hyperparameter tuning details required for reproducing the experimental results in the manuscript.
+
+## Repository Structure
+
+```text
+LSTI-Clock/
+├── Graph_generate/      # Code for graph construction and graph-related preprocessing
+├── RL/                  # Reinforcement learning components
+├── data/                # Dataset instructions
+├── evaluate.py          # Evaluation script
+├── gcn.py               # GCN module
+├── graph_init.py        # Graph initialization
+├── process_data.py      # Data preprocessing
+├── RL_model.py          # Reinforcement learning model
+├── sum_tree.py          # Sum-tree implementation for replay memory
+├── utils.py             # Utility functions
+├── README.md            # Main documentation
+└── docs/
+    └── tuning_details.md
+```
+
+## Environment
+
+The code is implemented in Python. Please install the required dependencies before running the experiments.
+
+If a `requirements.txt` file is provided, install dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Data Preparation
-1. Please download the datasets "SCPR_Data.zip" from https://cpr-conv-rec.github.io/, including lastfm, lastfm_start, and yelp. (If you would like to use your own dataset, please follow the same data format.)
-2. Upzip "SCPR_Data.zip" and put "data" folder in the path "unicorn/". 
-3. Processing data: `python graph_init.py --data_name <data_name>`
-4. Use TransE from [[OpenKE](https://github.com/thunlp/OpenKE)] to pretrain the graph embeddings. And put the pretrained embeddings under "unicorn/tmp/<data_name>/embeds/". Or you can directly download the pretrained TransE embeddings from https://drive.google.com/file/d/1qoZMbYCBi2Y4IsJBdJ8Eg6y30Ap0gsQY/view?usp=sharing.
 
-## Training
-`python RL_model.py --data_name <data_name>`
+The experiments in the manuscript are conducted on the YELP and MovieLens datasets.
 
-## Evaluation
-`python evaluate.py --data_name <data_name> --load_rl_epoch <checkpoint_epoch>`
+Please follow the instructions in:
 
-## Citation
-If the code is used in your research, please star this repo and cite our paper as follows:
+```text
+data/README.md
 ```
-@inproceedings{DBLP:conf/sigir/DengL0DL21,
-  author    = {Yang Deng and
-               Yaliang Li and
-               Fei Sun and
-               Bolin Ding and
-               Wai Lam},
-  title     = {Unified Conversational Recommendation Policy Learning via Graph-based
-               Reinforcement Learning},
-  booktitle = {{SIGIR} '21: The 44th International {ACM} {SIGIR} Conference on Research
-               and Development in Information Retrieval, Virtual Event, Canada, July
-               11-15, 2021},
-  pages     = {1431--1441},
-  publisher = {{ACM}},
-  year      = {2021},
-}
+
+After placing the datasets under the `data/` directory, run:
+
+```bash
+python process_data.py
 ```
+
+## Running the Model
+
+After data preprocessing, the model can be trained and evaluated using the provided Python scripts.
+
+Example command:
+
+```bash
+python evaluate.py
+```
+
+Please adjust the dataset name, paths, and hyperparameters according to the configuration used in the manuscript.
+
+## Hyperparameter Tuning
+
+The hyperparameter tuning details for the baselines reported in Table 2 are provided in:
+
+```text
+docs/tuning_details.md
+```
+
+## Reproducibility Notes
+
+This repository includes the implementation and documentation required to reproduce the main experimental results reported in the manuscript. The datasets are not directly included due to file size and/or license restrictions.
